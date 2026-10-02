@@ -185,15 +185,25 @@ function renderTriangles() {
     var setCenter = vec3.fromValues(.25,.75,0);  // center coords of tri set 
     mat4.fromTranslation(inputTriangles[0].mMatrix,vec3.negate(vec3.create(),setCenter)); // translate to origin
     mat4.multiply(inputTriangles[0].mMatrix,
-                  mat4.fromRotation(mat4.create(),Math.PI/2,vec3.fromValues(0,0,1)),
-                  inputTriangles[0].mMatrix); // rotate 90 degs
+                  mat4.fromRotation(mat4.create(),Math.PI*.75,vec3.fromValues(0,0,1)),
+                  inputTriangles[0].mMatrix); // rotate 135 degs
     mat4.multiply(inputTriangles[0].mMatrix,
-                  mat4.fromTranslation(mat4.create(),setCenter),
-                  inputTriangles[0].mMatrix); // move back to center
-        
+                  mat4.fromTranslation(mat4.create(),vec3.fromValues(-.75,-.25,0)),
+                  inputTriangles[0].mMatrix); // move to target location
+
     // define the modeling matrix for the second set
     inputTriangles[1].mMatrix = mat4.create();
-    
+    mat4.fromTranslation(inputTriangles[1].mMatrix,vec3.fromValues(-.25,-.25,0)); // translate center to origin
+    mat4.multiply(inputTriangles[1].mMatrix,
+                  mat4.fromScaling(mat4.create(),vec3.fromValues(2,2,1)),
+                  inputTriangles[1].mMatrix); // double size
+    mat4.multiply(inputTriangles[1].mMatrix,
+                  mat4.fromRotation(mat4.create(),Math.PI/4,vec3.fromValues(0,0,1)),
+                  inputTriangles[1].mMatrix); // rotate 45 degs
+    mat4.multiply(inputTriangles[1].mMatrix,
+                  mat4.fromTranslation(mat4.create(),vec3.fromValues(-.25,-.5,0)),
+                  inputTriangles[1].mMatrix); // move to target location
+
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
         // pass modeling matrix for set to shadeer
